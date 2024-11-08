@@ -25,20 +25,20 @@ const PenWidthButton = ({ onClick }: IPenWidthButton) => {
         <div className="flex flex-col bg-gray-800 rounded-md absolute bottom-8">
           <button
             onClick={() => handleClick(6)}
-            className="w-8 h-8 flex justify-center items-center rounded-md"
+            className="w-8 h-8 flex justify-center items-center rounded-md hover:bg-gray-600"
           >
             <div className="w-3 h-3 rounded-full bg-white" />
           </button>
 
           <button
             onClick={() => handleClick(4)}
-            className="w-8 h-8 flex justify-center items-center rounded-md"
+            className="w-8 h-8 flex justify-center items-center rounded-md hover:bg-gray-600"
           >
             <div className="w-2 h-2 rounded-full bg-white" />
           </button>
           <button
             onClick={() => handleClick(2)}
-            className="w-8 h-8 flex justify-center items-center rounded-md"
+            className="w-8 h-8 flex justify-center items-center rounded-md hover:bg-gray-600"
           >
             <div className="w-1 h-1 rounded-full bg-white" />
           </button>

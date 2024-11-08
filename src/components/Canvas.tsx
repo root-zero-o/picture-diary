@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { HiOutlineTrash } from "react-icons/hi";
+import ColorButton from "./ColorButton";
 import PenWidthButton from "./PenWidthButton";
 
 interface Pos {
@@ -127,6 +128,9 @@ const Canvas = () => {
         </button>
         <PenWidthButton
           onClick={(v) => setOption({ ...option, lineWidth: v })}
+        />
+        <ColorButton
+          onClick={(v) => setOption({ ...option, strokeStyle: v })}
         />
       </div>
     </div>
