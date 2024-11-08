@@ -95,7 +95,7 @@ const Canvas = () => {
   const handleEraser = () => {
     if (option.mode === "eraser") {
       setOption({
-        ...option,
+        lineWidth: 1,
         strokeStyle: "#000000",
         mode: "draw",
       });
