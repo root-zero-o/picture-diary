@@ -3,10 +3,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { HiOutlineTrash } from "react-icons/hi";
+import PenWidthButton from "./PenWidthButton";
 
 interface Pos {
   x: number;
   y: number;
+}
+
+interface Option {
+  lineWidth: number;
+  strokeStyle: string;
 }
 
 const Canvas = () => {
@@ -14,6 +20,10 @@ const Canvas = () => {
 
   const [isPainting, setIsPainting] = useState(false);
   const [pos, setPos] = useState<Pos | null>(null);
+  const [option, setOption] = useState<Option>({
+    lineWidth: 1,
+    strokeStyle: "black",
+  });
 
   const getPosition = (event: MouseEvent): Pos | undefined => {
     if (!canvasRef.current) return;
@@ -31,9 +41,9 @@ const Canvas = () => {
     const context = canvas.getContext("2d");
 
     if (context) {
-      context.strokeStyle = "black";
+      context.strokeStyle = option.strokeStyle;
       context.lineJoin = "round";
-      context.lineWidth = 1;
+      context.lineWidth = option.lineWidth;
 
       context.beginPath();
       context.moveTo(prev.x, prev.y);
@@ -108,13 +118,16 @@ const Canvas = () => {
       <div className="w-full h-92 border-gray-300 border-2 rounded-md">
         <canvas ref={canvasRef} id="canvas" className="w-full h-full" />
       </div>
-      <div className="flex">
+      <div className="flex gap-2">
         <button
           onClick={clear}
           className="w-8 h-8 flex justify-center items-center rounded-md bg-gray-800 text-white"
         >
           <HiOutlineTrash />
         </button>
+        <PenWidthButton
+          onClick={(v) => setOption({ ...option, lineWidth: v })}
+        />
       </div>
     </div>
   );

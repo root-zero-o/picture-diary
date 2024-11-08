@@ -27,7 +27,7 @@ export default function Home() {
           />
         </div>
         <div className="flex gap-2">
-          <button className="bg-gray-700 text-[var(--main-white)] w-fit p-2 rounded-md">
+          <button className="bg-gray-800 text-[var(--main-white)] w-fit p-2 rounded-md">
             저장하기
           </button>
           <button className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md">
