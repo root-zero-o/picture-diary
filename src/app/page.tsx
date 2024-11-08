@@ -2,8 +2,11 @@ import Canvas from "@/components/Canvas";
 
 export default function Home() {
   return (
-    <div className=" flex h-screen font-pretendard">
-      <main className="w-full h-full flex flex-col items-center p-10 pb-16 gap-4">
+    <div className="flex h-screen justify-center font-pretendard">
+      <main
+        className="w-full
+       max-w-[800px] h-full flex flex-col items-center p-10 pb-16 gap-4"
+      >
         <div className="flex flex-col gap-1 w-full">
           <h1 className="font-black text-4xl">그림일기</h1>
           <h4>오늘 하루를 그림으로 기록해보세요!</h4>
@@ -20,7 +23,7 @@ export default function Home() {
           <textarea
             placeholder="내용을 입력하세요"
             spellCheck="false"
-            className="w-full h-60 bg-transparent text-xl focus:ring-0 focus:outline-none"
+            className="w-full h-full bg-transparent text-xl focus:ring-0 focus:outline-none"
           />
         </div>
         <div className="flex gap-2">

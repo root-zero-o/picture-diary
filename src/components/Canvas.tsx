@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { HiOutlineTrash } from "react-icons/hi";
+
 interface Pos {
   x: number;
   y: number;
@@ -70,6 +72,12 @@ const Canvas = () => {
     setIsPainting(false);
   }, []);
 
+  const clear = () => {
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -96,8 +104,18 @@ const Canvas = () => {
   }, [startPaint, paint, exitPaint]);
 
   return (
-    <div className="w-full h-96 border-gray-300 border-2 rounded-md">
-      <canvas ref={canvasRef} id="canvas" className="w-full h-full" />
+    <div className="flex flex-col gap-2">
+      <div className="w-full h-92 border-gray-300 border-2 rounded-md">
+        <canvas ref={canvasRef} id="canvas" className="w-full h-full" />
+      </div>
+      <div className="flex">
+        <button
+          onClick={clear}
+          className="w-8 h-8 flex justify-center items-center rounded-md bg-gray-800 text-white"
+        >
+          <HiOutlineTrash />
+        </button>
+      </div>
     </div>
   );
 };
