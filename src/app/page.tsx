@@ -14,7 +14,7 @@ export default function Home() {
         <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
           <div className="w-full flex">
             <input
-              className="w-full h-10 p-2 border-b-2 bg-transparent text-2xl focus:ring-0 focus:outline-none"
+              className="h-10 p-2 border-b-2 text-2xl"
               placeholder="제목"
               spellCheck="false"
             />
@@ -23,7 +23,7 @@ export default function Home() {
           <textarea
             placeholder="내용을 입력하세요"
             spellCheck="false"
-            className="w-full h-full bg-transparent text-xl focus:ring-0 focus:outline-none"
+            className="h-full"
           />
         </div>
         <div className="flex gap-2">

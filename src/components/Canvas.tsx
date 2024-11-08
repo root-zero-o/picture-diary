@@ -120,10 +120,7 @@ const Canvas = () => {
         <canvas ref={canvasRef} id="canvas" className="w-full h-full" />
       </div>
       <div className="flex gap-2">
-        <button
-          onClick={clear}
-          className="w-8 h-8 flex justify-center items-center rounded-md bg-gray-800 text-white"
-        >
+        <button onClick={clear} className="canvas-option-btn">
           <HiOutlineTrash />
         </button>
         <PenWidthButton

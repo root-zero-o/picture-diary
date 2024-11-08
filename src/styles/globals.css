@@ -24,3 +24,10 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer base {
+  input,
+  textarea {
+    @apply w-full bg-transparent text-xl focus:ring-0 focus:outline-none;
+  }
+}

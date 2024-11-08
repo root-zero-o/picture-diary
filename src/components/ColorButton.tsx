@@ -64,7 +64,7 @@ const ColorButton = ({ onClick }: IColorButton) => {
     <div className="relative">
       <button
         onClick={() => setShowOption(!showOption)}
-        className="w-8 h-8 flex justify-center items-center rounded-md bg-gray-800 text-white"
+        className="canvas-option-btn"
       >
         <BiSolidPalette />
       </button>
@@ -75,7 +75,7 @@ const ColorButton = ({ onClick }: IColorButton) => {
               <button
                 key={v.color}
                 onClick={() => handleClick(v.color)}
-                className="w-8 h-8 flex justify-center items-center rounded-md hover:bg-gray-600"
+                className="canvas-option-btn"
               >
                 <div className={`w-4 h-4 rounded-full ${v.bg}`} />
               </button>
