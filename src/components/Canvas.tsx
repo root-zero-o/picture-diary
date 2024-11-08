@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { BiSolidEraser } from "react-icons/bi";
 import { HiOutlineTrash } from "react-icons/hi";
 import ColorButton from "./ColorButton";
 import PenWidthButton from "./PenWidthButton";
@@ -14,6 +15,7 @@ interface Pos {
 interface Option {
   lineWidth: number;
   strokeStyle: string;
+  mode: "draw" | "eraser";
 }
 
 const Canvas = () => {
@@ -24,6 +26,7 @@ const Canvas = () => {
   const [option, setOption] = useState<Option>({
     lineWidth: 1,
     strokeStyle: "black",
+    mode: "draw",
   });
 
   const getPosition = (event: MouseEvent): Pos | undefined => {
@@ -89,6 +92,22 @@ const Canvas = () => {
     canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
   };
 
+  const handleEraser = () => {
+    if (option.mode === "eraser") {
+      setOption({
+        ...option,
+        strokeStyle: "#000000",
+        mode: "draw",
+      });
+    } else {
+      setOption({
+        lineWidth: 20,
+        strokeStyle: "#f6f6f6",
+        mode: "eraser",
+      });
+    }
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -124,11 +143,21 @@ const Canvas = () => {
           <HiOutlineTrash />
         </button>
         <PenWidthButton
+          disabled={option.mode === "eraser"}
           onClick={(v) => setOption({ ...option, lineWidth: v })}
         />
         <ColorButton
+          disabled={option.mode === "eraser"}
           onClick={(v) => setOption({ ...option, strokeStyle: v })}
         />
+        <button
+          onClick={handleEraser}
+          className={`canvas-option-btn ${
+            option.mode === "eraser" ? " text-yellow-300" : ""
+          }`}
+        >
+          <BiSolidEraser />
+        </button>
       </div>
     </div>
   );

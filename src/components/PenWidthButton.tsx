@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import { HiPencil } from "react-icons/hi";
 
 interface IPenWidthButton {
+  disabled: boolean;
   onClick: (v: number) => void;
 }
 
-const PenWidthButton = ({ onClick }: IPenWidthButton) => {
+const PenWidthButton = ({ disabled, onClick }: IPenWidthButton) => {
   const [showOption, setShowOption] = useState(false);
 
   const handleClick = (v: number) => {
@@ -13,9 +15,16 @@ const PenWidthButton = ({ onClick }: IPenWidthButton) => {
     setShowOption(false);
   };
 
+  useEffect(() => {
+    if (disabled) {
+      setShowOption(false);
+    }
+  }, [disabled]);
+
   return (
     <div className="relative">
       <button
+        disabled={disabled}
         onClick={() => setShowOption(!showOption)}
         className="canvas-option-btn"
       >

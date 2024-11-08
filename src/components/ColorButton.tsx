@@ -1,12 +1,13 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { BiSolidPalette } from "react-icons/bi";
 
 interface IColorButton {
+  disabled: boolean;
   onClick: (v: string) => void;
 }
 
-const ColorButton = ({ onClick }: IColorButton) => {
+const ColorButton = ({ disabled, onClick }: IColorButton) => {
   const [showOption, setShowOption] = useState(false);
 
   const colors = useMemo(
@@ -60,9 +61,16 @@ const ColorButton = ({ onClick }: IColorButton) => {
     setShowOption(false);
   };
 
+  useEffect(() => {
+    if (disabled) {
+      setShowOption(false);
+    }
+  }, [disabled]);
+
   return (
     <div className="relative">
       <button
+        disabled={disabled}
         onClick={() => setShowOption(!showOption)}
         className="canvas-option-btn"
       >
