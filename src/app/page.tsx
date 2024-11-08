@@ -1,6 +1,8 @@
+import Canvas from "@/components/Canvas";
+
 export default function Home() {
   return (
-    <div className=" flex h-screen  font-pretendard">
+    <div className=" flex h-screen font-pretendard">
       <main className="w-full h-full flex flex-col items-center p-10 pb-16 gap-4">
         <div className="flex flex-col gap-1 w-full">
           <h1 className="font-black text-4xl">그림일기</h1>
@@ -14,9 +16,7 @@ export default function Home() {
               spellCheck="false"
             />
           </div>
-          <div className="w-full h-full border-gray-300 border-2 rounded-md">
-            그림 들어가는 곳
-          </div>
+          <Canvas />
           <textarea
             placeholder="내용을 입력하세요"
             spellCheck="false"
