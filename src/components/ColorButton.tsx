@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+
 import { BiSolidPalette } from "react-icons/bi";
 
 interface IColorButton {
@@ -8,18 +9,51 @@ interface IColorButton {
 const ColorButton = ({ onClick }: IColorButton) => {
   const [showOption, setShowOption] = useState(false);
 
-  const colors = [
-    "#ef4444",
-    "#f97316",
-    "#eab308",
-    "#22c55e",
-    "#14b8a6",
-    "#3b82f6",
-    "#a855f7",
-    "#ec4899",
-    "#6b7280",
-    "#000000",
-  ];
+  const colors = useMemo(
+    () => [
+      {
+        color: "#ef4444",
+        bg: "bg-[#ef4444]",
+      },
+      {
+        color: "#f97316",
+        bg: "bg-[#f97316]",
+      },
+      {
+        color: "#eab308",
+        bg: "bg-[#eab308]",
+      },
+      {
+        color: "#22c55e",
+        bg: "bg-[#22c55e]",
+      },
+      {
+        color: "#14b8a6",
+        bg: "bg-[#14b8a6]",
+      },
+      {
+        color: "#3b82f6",
+        bg: "bg-[#3b82f6]",
+      },
+      {
+        color: "#a855f7",
+        bg: "bg-[#a855f7]",
+      },
+      {
+        color: "#ec4899",
+        bg: "bg-[#ec4899]",
+      },
+      {
+        color: "#6b7280",
+        bg: "bg-[#6b7280]",
+      },
+      {
+        color: "#000000",
+        bg: "bg-[#000000]",
+      },
+    ],
+    []
+  );
 
   const handleClick = (v: string) => {
     onClick(v);
@@ -39,11 +73,11 @@ const ColorButton = ({ onClick }: IColorButton) => {
           colors.map((v) => {
             return (
               <button
-                key={v}
-                onClick={() => handleClick(v)}
+                key={v.color}
+                onClick={() => handleClick(v.color)}
                 className="w-8 h-8 flex justify-center items-center rounded-md hover:bg-gray-600"
               >
-                <div className={`w-4 h-4 rounded-full bg-[${v}]`} />
+                <div className={`w-4 h-4 rounded-full ${v.bg}`} />
               </button>
             );
           })}
