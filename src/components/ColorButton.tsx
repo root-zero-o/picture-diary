@@ -70,6 +70,7 @@ const ColorButton = ({ disabled, onClick }: IColorButton) => {
   return (
     <div className="relative">
       <button
+        type="button"
         disabled={disabled}
         onClick={() => setShowOption(!showOption)}
         className="canvas-option-btn"
@@ -81,6 +82,7 @@ const ColorButton = ({ disabled, onClick }: IColorButton) => {
           colors.map((v) => {
             return (
               <button
+                type="button"
                 key={v.color}
                 onClick={() => handleClick(v.color)}
                 className="canvas-option-btn"

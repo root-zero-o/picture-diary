@@ -1,12 +1,12 @@
 "use client";
 
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useDiaryByDate } from "@/api/hooks";
 import Canvas from "@/components/Canvas";
 import Loading from "@/components/Loading";
-import { useParams } from "next/navigation";
 
 export interface IFormState {
   title: string;
@@ -21,6 +21,7 @@ const DiaryDetail = () => {
     reset,
   } = useForm<IFormState>();
   const params = useParams<{ date: string }>();
+  const router = useRouter();
 
   const { data, isFetching } = useDiaryByDate(params.date);
 
@@ -29,6 +30,10 @@ const DiaryDetail = () => {
   const onSubmit: SubmitHandler<IFormState> = (data) => {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
     const img = canvas.toDataURL();
+  };
+
+  const handleAddButton = () => {
+    router.push(`/add/${params.date}`);
   };
 
   useEffect(() => {
@@ -44,7 +49,10 @@ const DiaryDetail = () => {
     return (
       <div className="w-full h-full flex flex-col justify-center items-center bg-gray-200 rounded-md gap-4">
         {params.date} 에 작성된 일기가 없어요!
-        <button className="bg-gray-800 text-[var(--main-white)] p-2 rounded-md">
+        <button
+          onClick={handleAddButton}
+          className="bg-gray-800 text-[var(--main-white)] p-2 rounded-md"
+        >
           일기쓰기
         </button>
       </div>

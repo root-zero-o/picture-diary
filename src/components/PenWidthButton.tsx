@@ -24,6 +24,7 @@ const PenWidthButton = ({ disabled, onClick }: IPenWidthButton) => {
   return (
     <div className="relative">
       <button
+        type="button"
         disabled={disabled}
         onClick={() => setShowOption(!showOption)}
         className="canvas-option-btn"
@@ -32,14 +33,26 @@ const PenWidthButton = ({ disabled, onClick }: IPenWidthButton) => {
       </button>
       {showOption && (
         <div className="flex flex-col bg-gray-800 rounded-md absolute bottom-8">
-          <button onClick={() => handleClick(6)} className="canvas-option-btn">
+          <button
+            type="button"
+            onClick={() => handleClick(6)}
+            className="canvas-option-btn"
+          >
             <div className="w-3 h-3 rounded-full bg-white" />
           </button>
 
-          <button onClick={() => handleClick(4)} className="canvas-option-btn">
+          <button
+            type="button"
+            onClick={() => handleClick(4)}
+            className="canvas-option-btn"
+          >
             <div className="w-2 h-2 rounded-full bg-white" />
           </button>
-          <button onClick={() => handleClick(2)} className="canvas-option-btn">
+          <button
+            type="button"
+            onClick={() => handleClick(2)}
+            className="canvas-option-btn"
+          >
             <div className="w-1 h-1 rounded-full bg-white" />
           </button>
         </div>

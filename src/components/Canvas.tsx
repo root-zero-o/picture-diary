@@ -118,6 +118,7 @@ const Canvas = ({ updateMode }: { updateMode: boolean }) => {
   }, []);
 
   useEffect(() => {
+    if (!updateMode) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -131,7 +132,7 @@ const Canvas = ({ updateMode }: { updateMode: boolean }) => {
       canvas.removeEventListener("mouseup", exitPaint);
       canvas.removeEventListener("mouseleave", exitPaint);
     };
-  }, [startPaint, paint, exitPaint]);
+  }, [startPaint, paint, exitPaint, updateMode]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -140,7 +141,7 @@ const Canvas = ({ updateMode }: { updateMode: boolean }) => {
       </div>
       {updateMode && (
         <div className="flex gap-2">
-          <button onClick={clear} className="canvas-option-btn">
+          <button type="button" onClick={clear} className="canvas-option-btn">
             <HiOutlineTrash />
           </button>
           <PenWidthButton
@@ -152,6 +153,7 @@ const Canvas = ({ updateMode }: { updateMode: boolean }) => {
             onClick={(v) => setOption({ ...option, strokeStyle: v })}
           />
           <button
+            type="button"
             onClick={handleEraser}
             className={`canvas-option-btn ${
               option.mode === "eraser" ? " text-yellow-300" : ""
