@@ -1,7 +1,6 @@
 import "../styles/components.css";
 import "../styles/globals.css";
 
-import Header from "@/components/Header";
 import ReactQueryProvider from "@/utils/ReactQueryProvider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -26,17 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${pretendard.variable} antialiased`}>
-        <ReactQueryProvider>
-          <div className="flex h-screen justify-center font-pretendard">
-            <main
-              className="w-full
-       max-w-[800px] h-full flex flex-col items-center p-10 pb-16 gap-4"
-            >
-              <Header />
-              {children}
-            </main>
-          </div>
-        </ReactQueryProvider>
+        <div className="flex h-screen justify-center font-pretendard">
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </div>
       </body>
     </html>
   );

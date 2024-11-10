@@ -4,6 +4,7 @@ import Calendar, { OnArgs } from "react-calendar";
 
 import { useDiaryCount } from "@/api/hooks";
 import { format } from "date-fns";
+import { useState } from "react";
 import { SelectedDate } from "./Header";
 
 interface ICustomCalendar {
@@ -12,13 +13,15 @@ interface ICustomCalendar {
 }
 
 const CustomCalendar = ({ date, onChange }: ICustomCalendar) => {
-  const handleChangeMonth = ({ activeStartDate }: OnArgs) => {
-    if (!activeStartDate) return;
-    console.log(format(activeStartDate, "yyyy-MM"));
-  };
-  const month = format(date as Date, "yyyy-MM");
+  const [calendarDate, setCalendarDate] = useState(date);
+  const month = format(calendarDate as Date, "yyyy-MM");
 
   const { data, isFetching } = useDiaryCount(month);
+
+  const handleChangeMonth = ({ activeStartDate }: OnArgs) => {
+    if (!activeStartDate) return;
+    setCalendarDate(activeStartDate);
+  };
 
   return (
     <div className="w-[300px] absolute right-0 top-20 ">

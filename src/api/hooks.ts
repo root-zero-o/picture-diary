@@ -24,7 +24,7 @@ export const useDiaryByDate = (date: string) => {
 };
 
 export const useDiaryCount = (month: string) => {
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, refetch } = useQuery({
     queryKey: ["getDiaryCount", month] as const,
     queryFn: () => getDiaryCount(month),
   });
@@ -32,6 +32,7 @@ export const useDiaryCount = (month: string) => {
   return {
     data: data?.data,
     isFetching,
+    refetch,
   };
 };
 
