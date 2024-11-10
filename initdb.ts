@@ -7,8 +7,8 @@ db.prepare(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             picture BLOB,
-            content TEXT NOT NULL
-            date TEXT NOT NULL,
+            content TEXT NOT NULL,
+            date TEXT NOT NULL
         )
     `
 ).run();
@@ -29,7 +29,7 @@ const initData = async () => {
          @title,
          @picture,
          @content,
-         @date,
+         @date
       )
    `);
   for (const d of dummyData) {
