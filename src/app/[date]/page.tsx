@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useDiaryByDate } from "@/api/hooks";
 import Canvas from "@/components/Canvas";
+import Loading from "@/components/Loading";
 import { useParams } from "next/navigation";
 
 export interface IFormState {
@@ -55,6 +56,7 @@ const DiaryDetail = () => {
       className="w-full h-full flex flex-col items-center gap-4"
       onSubmit={handleSubmit(onSubmit)}
     >
+      {isFetching && <Loading />}
       <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
         <div className="w-full flex">
           <input

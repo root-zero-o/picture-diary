@@ -1,6 +1,8 @@
 "use client";
 
+import { format } from "date-fns";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
@@ -12,12 +14,15 @@ export type DatePiece = Date | null;
 export type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
 const Header = () => {
+  const router = useRouter();
   const [showCalendar, setShowCalendar] = useState(false);
   const [date, setDate] = useState<SelectedDate>(new Date());
 
   const handleChange = (v: SelectedDate) => {
     setDate(v);
     setShowCalendar(false);
+    const date = format(v as Date, "yyyy-MM-dd");
+    router.push(`/${date}`);
   };
 
   return (
