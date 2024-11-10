@@ -18,7 +18,13 @@ interface Option {
   mode: "draw" | "eraser";
 }
 
-const Canvas = ({ updateMode }: { updateMode: boolean }) => {
+const Canvas = ({
+  updateMode,
+  picture,
+}: {
+  updateMode: boolean;
+  picture: string | null;
+}) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const [isPainting, setIsPainting] = useState(false);
@@ -116,6 +122,19 @@ const Canvas = ({ updateMode }: { updateMode: boolean }) => {
     canvas.width = width;
     canvas.height = height;
   }, []);
+
+  useEffect(() => {
+    if (!picture) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const context = canvas.getContext("2d");
+    const imgEl = new Image();
+    imgEl.src = picture;
+    imgEl.onload = () => {
+      context?.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
+    };
+  }, [picture]);
 
   useEffect(() => {
     if (!updateMode) return;

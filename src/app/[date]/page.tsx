@@ -75,7 +75,7 @@ const DiaryDetail = () => {
             {...register("title", { required: true })}
           />
         </div>
-        <Canvas updateMode={updateMode} />
+        <Canvas updateMode={updateMode} picture={data?.picture || null} />
         <textarea
           placeholder="내용을 입력하세요"
           spellCheck="false"
