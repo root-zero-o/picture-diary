@@ -6,9 +6,9 @@ db.prepare(
         CREATE TABLE IF NOT EXISTS diary (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
-            weather INTEGER NOT NULL,
             picture BLOB,
             content TEXT NOT NULL
+            date TEXT NOT NULL,
         )
     `
 ).run();
@@ -16,9 +16,9 @@ db.prepare(
 const dummyData = [
   {
     title: "클라이밍 하는 날",
-    weather: 1,
     picture: null,
     content: "재미있었다 ~~",
+    date: "2024-11-08",
   },
 ];
 
@@ -27,9 +27,9 @@ const initData = async () => {
       INSERT INTO diary VALUES (
          null,
          @title,
-         @weather,
          @picture,
-         @content
+         @content,
+         @date,
       )
    `);
   for (const d of dummyData) {
