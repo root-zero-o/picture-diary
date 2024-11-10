@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeleteDiary, useDiaryByDate } from "@/api/hooks";
+import { useDeleteDiary, useDiaryByDate, useUpdateDiary } from "@/api/hooks";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,15 +22,26 @@ const DiaryDetail = () => {
   } = useForm<IFormState>();
   const params = useParams<{ date: string }>();
   const router = useRouter();
+  const [updateMode, setUpdateMode] = useState(false);
 
   const { data, isFetching } = useDiaryByDate(params.date);
   const { mutate: del, isPending: delPending } = useDeleteDiary(params.date);
+  const { mutate: update, isPending: updatePending } = useUpdateDiary(
+    params.date,
+    () => setUpdateMode(false)
+  );
 
-  const [updateMode, setUpdateMode] = useState(false);
-
-  const onSubmit: SubmitHandler<IFormState> = (data) => {
+  const handleUpdate: SubmitHandler<IFormState> = (data) => {
+    if (!updateMode) return;
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
     const img = canvas.toDataURL();
+
+    update({
+      title: data.title,
+      content: data.content,
+      date: params.date,
+      picture: img,
+    });
   };
 
   const handleAddButton = () => {
@@ -65,10 +76,7 @@ const DiaryDetail = () => {
   }
 
   return (
-    <form
-      className="w-full h-full flex flex-col items-center gap-4"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className="w-full h-full flex flex-col items-center gap-4">
       {isFetching && <Loading />}
       <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
         <div className="w-full flex">
@@ -92,9 +100,10 @@ const DiaryDetail = () => {
       <div className="flex gap-2">
         {!updateMode ? (
           <button
-            disabled={!isValid}
+            disabled={!isValid || updatePending}
             className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
-            onClick={() => setUpdateMode(true)}
+            onClick={handleSubmit(() => setUpdateMode(true))}
+            type="button"
           >
             수정하기
           </button>
@@ -102,7 +111,8 @@ const DiaryDetail = () => {
           <button
             disabled={!isValid}
             className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
-            onClick={() => setUpdateMode(false)}
+            type="submit"
+            onClick={handleSubmit(handleUpdate)}
           >
             변경사항 저장하기
           </button>
@@ -110,6 +120,7 @@ const DiaryDetail = () => {
         <button
           onClick={handleDeleteButton}
           className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md"
+          type="button"
         >
           삭제하기
         </button>

@@ -1,4 +1,4 @@
-import { Delete, Get, Post } from ".";
+import { Delete, Get, Patch, Post } from ".";
 
 import { Diary } from "./types";
 
@@ -37,6 +37,13 @@ export const deleteDiary = async (date: string) => {
       date,
     },
   });
+
+  return res;
+};
+
+/** PATCH : 일기 수정하기 */
+export const updateDiary = async (body: Omit<Diary, "id">) => {
+  const res = await Patch<any>("/api", body);
 
   return res;
 };

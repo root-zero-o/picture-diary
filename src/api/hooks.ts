@@ -5,6 +5,7 @@ import {
   deleteDiary,
   getDiaryByDate,
   getDiaryCount,
+  updateDiary,
 } from "./fetcher";
 
 import { useRouter } from "next/navigation";
@@ -72,6 +73,27 @@ export const useDeleteDiary = (date: string) => {
     },
     onError: () => {
       alert("삭제 실패! 다시 시도해주세요");
+    },
+  });
+
+  return {
+    mutate,
+    isPending,
+  };
+};
+
+export const useUpdateDiary = (date: string, onSuccess: () => void) => {
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateDiary,
+    onSuccess: () => {
+      alert("일기 수정 완료!");
+      queryClient.resetQueries();
+      onSuccess();
+    },
+    onError: () => {
+      alert("일기 수정 실패! 다시 시도해주세요");
     },
   });
 

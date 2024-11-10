@@ -46,7 +46,6 @@ export const DELETE = async (req: NextRequest) => {
 
   const searchParams = req.nextUrl.searchParams;
   const date = searchParams.get("date");
-  console.log(date);
 
   const del = db.prepare(`
       DELETE FROM diary
@@ -59,6 +58,29 @@ export const DELETE = async (req: NextRequest) => {
   } else {
     return NextResponse.json(
       { error: "삭제에 실패하였습니다." },
+      { status: 500 }
+    );
+  }
+};
+
+export const PATCH = async (req: NextRequest) => {
+  const db = sql("diary.db");
+
+  const body = await req.json();
+  const { title, content, picture, date } = body;
+
+  const update = db.prepare(`
+      UPDATE diary
+      SET title = '${title}', content = '${content}', picture = '${picture}'
+      WHERE date = '${body.date}'
+    `);
+
+  const result = update.run(body);
+  if (result.changes) {
+    return NextResponse.json({ success: true });
+  } else {
+    return NextResponse.json(
+      { error: "수정에 실패하였습니다." },
       { status: 500 }
     );
   }
