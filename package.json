@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.59.20",
+    "@tanstack/react-query-devtools": "^5.59.20",
     "@types/better-sqlite3": "^7.6.11",
     "axios": "^1.7.7",
     "better-sqlite3": "^11.5.0",

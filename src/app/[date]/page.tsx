@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { getDiaryByDate } from "@/api/fetcher";
+import { useDiaryByDate } from "@/api/hooks";
 import Canvas from "@/components/Canvas";
-import Header from "@/components/Header";
 import { useParams } from "next/navigation";
 
 export interface IFormState {
@@ -19,9 +18,10 @@ const DiaryDetail = () => {
     handleSubmit,
     formState: { isValid },
     reset,
-    getValues,
   } = useForm<IFormState>();
   const params = useParams<{ date: string }>();
+
+  const { data, isFetching } = useDiaryByDate(params.date);
 
   const [updateMode, setUpdateMode] = useState(false);
 
@@ -31,60 +31,72 @@ const DiaryDetail = () => {
   };
 
   useEffect(() => {
-    getDiaryByDate(params.date, reset);
-  }, []);
+    if (data) {
+      reset({
+        title: data.title,
+        content: data.content,
+      });
+    }
+  }, [data]);
+
+  if (!isFetching && !data) {
+    return (
+      <div className="w-full h-full flex flex-col justify-center items-center bg-gray-200 rounded-md gap-4">
+        {params.date} 에 작성된 일기가 없어요!
+        <button className="bg-gray-800 text-[var(--main-white)] p-2 rounded-md">
+          일기쓰기
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex h-screen justify-center font-pretendard">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full
-       max-w-[800px] h-full flex flex-col items-center p-10 pb-16 gap-4"
-      >
-        <Header />
-        <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
-          <div className="w-full flex">
-            <input
-              disabled={!updateMode}
-              className="h-10 p-2 border-b-2 text-2xl"
-              placeholder="제목"
-              spellCheck="false"
-              {...register("title", { required: true })}
-            />
-          </div>
-          <Canvas updateMode={updateMode} />
-          <textarea
-            placeholder="내용을 입력하세요"
-            spellCheck="false"
-            className="h-full"
+    <form
+      className="w-full h-full flex flex-col items-center gap-4"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
+        <div className="w-full flex">
+          <input
             disabled={!updateMode}
-            {...register("content", { required: true })}
+            className="h-10 p-2 border-b-2 text-2xl"
+            placeholder="제목"
+            spellCheck="false"
+            {...register("title", { required: true })}
           />
         </div>
-        <div className="flex gap-2">
-          {!updateMode ? (
-            <button
-              disabled={!isValid}
-              className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
-              onClick={() => setUpdateMode(true)}
-            >
-              수정하기
-            </button>
-          ) : (
-            <button
-              disabled={!isValid}
-              className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
-              onClick={() => setUpdateMode(false)}
-            >
-              변경사항 저장하기
-            </button>
-          )}
-          <button className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md">
-            삭제하기
+        <Canvas updateMode={updateMode} />
+        <textarea
+          placeholder="내용을 입력하세요"
+          spellCheck="false"
+          className="h-full"
+          disabled={!updateMode}
+          {...register("content", { required: true })}
+        />
+      </div>
+      <div className="flex gap-2">
+        {!updateMode ? (
+          <button
+            disabled={!isValid}
+            className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
+            onClick={() => setUpdateMode(true)}
+          >
+            수정하기
           </button>
-        </div>
-      </form>
-    </div>
+        ) : (
+          <button
+            disabled={!isValid}
+            className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
+            onClick={() => setUpdateMode(false)}
+          >
+            변경사항 저장하기
+          </button>
+        )}
+        <button className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md">
+          삭제하기
+        </button>
+      </div>
+    </form>
   );
 };
 
