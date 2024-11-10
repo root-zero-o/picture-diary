@@ -1,4 +1,4 @@
-import { Get, Post } from ".";
+import { Delete, Get, Post } from ".";
 
 import { Diary } from "./types";
 
@@ -27,5 +27,16 @@ export const getDiaryCount = async (month: string) => {
 /** POST : 일기 생성하기 */
 export const createDiary = async (body: Omit<Diary, "id">) => {
   const res = await Post<{ id: number }>("/api", body);
+  return res;
+};
+
+/** DELETE : 일기 삭제하기 */
+export const deleteDiary = async (date: string) => {
+  const res = await Delete<{ success: boolean }>("/api", {
+    params: {
+      date,
+    },
+  });
+
   return res;
 };

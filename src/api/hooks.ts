@@ -1,6 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { createDiary, getDiaryByDate, getDiaryCount } from "./fetcher";
+import {
+  createDiary,
+  deleteDiary,
+  getDiaryByDate,
+  getDiaryCount,
+} from "./fetcher";
 
 import { useRouter } from "next/navigation";
 import { Diary } from "./types";
@@ -45,6 +50,28 @@ export const useCreateDiary = (date: string) => {
     },
     onError: (e) => {
       alert(e.response?.data.error);
+    },
+  });
+
+  return {
+    mutate,
+    isPending,
+  };
+};
+
+export const useDeleteDiary = (date: string) => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: deleteDiary,
+    onSuccess: () => {
+      alert("일기 삭제 완료!");
+      queryClient.resetQueries();
+      router.push(`/add/${date}`);
+    },
+    onError: () => {
+      alert("삭제 실패! 다시 시도해주세요");
     },
   });
 

@@ -51,7 +51,7 @@ const Add = () => {
             {...register("title", { required: true })}
           />
         </div>
-        <Canvas updateMode />
+        <Canvas updateMode picture={null} />
         <textarea
           placeholder="내용을 입력하세요"
           spellCheck="false"

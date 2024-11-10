@@ -40,3 +40,26 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ id: result.lastInsertRowid });
   }
 };
+
+export const DELETE = async (req: NextRequest) => {
+  const db = sql("diary.db");
+
+  const searchParams = req.nextUrl.searchParams;
+  const date = searchParams.get("date");
+  console.log(date);
+
+  const del = db.prepare(`
+      DELETE FROM diary
+      WHERE date = '${date}'
+    `);
+
+  const result = del.run();
+  if (result.changes) {
+    return NextResponse.json({ success: true });
+  } else {
+    return NextResponse.json(
+      { error: "삭제에 실패하였습니다." },
+      { status: 500 }
+    );
+  }
+};

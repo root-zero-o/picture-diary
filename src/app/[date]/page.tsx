@@ -1,10 +1,10 @@
 "use client";
 
+import { useDeleteDiary, useDiaryByDate } from "@/api/hooks";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useDiaryByDate } from "@/api/hooks";
 import Canvas from "@/components/Canvas";
 import Loading from "@/components/Loading";
 
@@ -24,6 +24,7 @@ const DiaryDetail = () => {
   const router = useRouter();
 
   const { data, isFetching } = useDiaryByDate(params.date);
+  const { mutate: del, isPending: delPending } = useDeleteDiary(params.date);
 
   const [updateMode, setUpdateMode] = useState(false);
 
@@ -34,6 +35,10 @@ const DiaryDetail = () => {
 
   const handleAddButton = () => {
     router.push(`/add/${params.date}`);
+  };
+
+  const handleDeleteButton = () => {
+    del(params.date);
   };
 
   useEffect(() => {
@@ -102,7 +107,10 @@ const DiaryDetail = () => {
             변경사항 저장하기
           </button>
         )}
-        <button className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md">
+        <button
+          onClick={handleDeleteButton}
+          className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md"
+        >
           삭제하기
         </button>
       </div>
