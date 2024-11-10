@@ -18,7 +18,7 @@ interface Option {
   mode: "draw" | "eraser";
 }
 
-const Canvas = () => {
+const Canvas = ({ updateMode }: { updateMode: boolean }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const [isPainting, setIsPainting] = useState(false);
@@ -138,27 +138,29 @@ const Canvas = () => {
       <div className="w-full h-92 border-gray-300 border-2 rounded-md">
         <canvas ref={canvasRef} id="canvas" className="w-full h-full" />
       </div>
-      <div className="flex gap-2">
-        <button onClick={clear} className="canvas-option-btn">
-          <HiOutlineTrash />
-        </button>
-        <PenWidthButton
-          disabled={option.mode === "eraser"}
-          onClick={(v) => setOption({ ...option, lineWidth: v })}
-        />
-        <ColorButton
-          disabled={option.mode === "eraser"}
-          onClick={(v) => setOption({ ...option, strokeStyle: v })}
-        />
-        <button
-          onClick={handleEraser}
-          className={`canvas-option-btn ${
-            option.mode === "eraser" ? " text-yellow-300" : ""
-          }`}
-        >
-          <BiSolidEraser />
-        </button>
-      </div>
+      {updateMode && (
+        <div className="flex gap-2">
+          <button onClick={clear} className="canvas-option-btn">
+            <HiOutlineTrash />
+          </button>
+          <PenWidthButton
+            disabled={option.mode === "eraser"}
+            onClick={(v) => setOption({ ...option, lineWidth: v })}
+          />
+          <ColorButton
+            disabled={option.mode === "eraser"}
+            onClick={(v) => setOption({ ...option, strokeStyle: v })}
+          />
+          <button
+            onClick={handleEraser}
+            className={`canvas-option-btn ${
+              option.mode === "eraser" ? " text-yellow-300" : ""
+            }`}
+          >
+            <BiSolidEraser />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

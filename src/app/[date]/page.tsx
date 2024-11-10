@@ -1,14 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { getDiaryByDate } from "@/api/fetcher";
 import Canvas from "@/components/Canvas";
 import Header from "@/components/Header";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
 
-interface IFormState {
+export interface IFormState {
   title: string;
   content: string;
 }
@@ -19,8 +19,11 @@ const DiaryDetail = () => {
     handleSubmit,
     formState: { isValid },
     reset,
+    getValues,
   } = useForm<IFormState>();
   const params = useParams<{ date: string }>();
+
+  const [updateMode, setUpdateMode] = useState(false);
 
   const onSubmit: SubmitHandler<IFormState> = (data) => {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -42,27 +45,40 @@ const DiaryDetail = () => {
         <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
           <div className="w-full flex">
             <input
+              disabled={!updateMode}
               className="h-10 p-2 border-b-2 text-2xl"
               placeholder="제목"
               spellCheck="false"
               {...register("title", { required: true })}
             />
           </div>
-          <Canvas />
+          <Canvas updateMode={updateMode} />
           <textarea
             placeholder="내용을 입력하세요"
             spellCheck="false"
             className="h-full"
+            disabled={!updateMode}
             {...register("content", { required: true })}
           />
         </div>
         <div className="flex gap-2">
-          <button
-            disabled={!isValid}
-            className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
-          >
-            수정하기
-          </button>
+          {!updateMode ? (
+            <button
+              disabled={!isValid}
+              className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
+              onClick={() => setUpdateMode(true)}
+            >
+              수정하기
+            </button>
+          ) : (
+            <button
+              disabled={!isValid}
+              className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
+              onClick={() => setUpdateMode(false)}
+            >
+              변경사항 저장하기
+            </button>
+          )}
           <button className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md">
             삭제하기
           </button>

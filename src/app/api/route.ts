@@ -9,5 +9,8 @@ export const GET = async (req: NextRequest) => {
   const date = searchParams.get("date");
   const all = db.prepare(`SELECT * FROM diary WHERE date = '${date}'`).get();
 
+  if (!all) {
+    return NextResponse.json(false);
+  }
   return NextResponse.json(all);
 };
