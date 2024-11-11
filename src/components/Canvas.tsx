@@ -98,12 +98,14 @@ const Canvas = ({
     setIsPainting(false);
   }, []);
 
+  /** 전체 삭제 */
   const clear = () => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
     canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
   };
 
+  /** 지우개 핸들러 */
   const handleEraser = () => {
     if (option.mode === "eraser") {
       setOption({
@@ -120,6 +122,7 @@ const Canvas = ({
     }
   };
 
+  /** 파일 업로드 핸들러 */
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
     const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024;
 
@@ -138,6 +141,7 @@ const Canvas = ({
     setPic(url);
   };
 
+  /** 캔버스 크기 set */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -147,6 +151,7 @@ const Canvas = ({
     canvas.height = height;
   }, []);
 
+  /** 이미지 삽입 후 캔버스에 로드 */
   useEffect(() => {
     if (!pic) return;
     const canvas = canvasRef.current;
@@ -161,6 +166,7 @@ const Canvas = ({
     };
   }, [pic]);
 
+  /** 이벤트 등록 */
   useEffect(() => {
     if (!updateMode) return;
     const canvas = canvasRef.current;
