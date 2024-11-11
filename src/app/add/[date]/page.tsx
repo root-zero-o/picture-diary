@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useCreateDiary } from "@/api/hooks";
 import Canvas from "@/components/Canvas";
+import { format } from "date-fns";
 
 export interface IFormState {
   title: string;
@@ -43,6 +44,9 @@ const Add = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
+        <span className="text-md text-gray-500">
+          {format(new Date(params.date), "yyyy년 M월 d일")}
+        </span>
         <div className="w-full flex">
           <input
             className="h-10 p-2 border-b-2 text-2xl"

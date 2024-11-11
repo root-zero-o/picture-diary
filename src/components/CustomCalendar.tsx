@@ -23,11 +23,16 @@ const CustomCalendar = ({ date, onChange }: ICustomCalendar) => {
     setCalendarDate(activeStartDate);
   };
 
+  const handleChangeDate = (v: SelectedDate) => {
+    setCalendarDate(v);
+    onChange(v);
+  };
+
   return (
     <div className="w-[300px] absolute right-0 top-20 ">
       <Calendar
-        value={date}
-        onChange={(v) => onChange(v)}
+        value={calendarDate}
+        onChange={handleChangeDate}
         onActiveStartDateChange={handleChangeMonth}
         tileContent={({ date, view }) => {
           if (data?.find((x) => x.date === format(date, "yyyy-MM-dd"))) {
