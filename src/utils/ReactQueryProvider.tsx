@@ -1,6 +1,10 @@
 "use client";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
@@ -18,6 +22,11 @@ const ReactQueryProvider = ({ children }: React.PropsWithChildren) => {
             gcTime: 1000 * 60 * 6,
           },
         },
+        queryCache: new QueryCache({
+          onError: (error, query) => {
+            alert(query.meta?.errorMessage);
+          },
+        }),
       })
   );
 

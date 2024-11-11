@@ -15,6 +15,9 @@ export const useDiaryByDate = (date: string) => {
   const { data, isFetching } = useQuery({
     queryKey: ["getDiaryByDate", date] as const,
     queryFn: () => getDiaryByDate(date),
+    meta: {
+      errorMessage: "날짜별 일기 조회 실패! 다시 시도해주세요",
+    },
   });
 
   return {
@@ -27,6 +30,9 @@ export const useDiaryCount = (month: string) => {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["getDiaryCount", month] as const,
     queryFn: () => getDiaryCount(month),
+    meta: {
+      errorMessage: "일기 작성현황 조회 실패! 다시 시도해주세요",
+    },
   });
 
   return {

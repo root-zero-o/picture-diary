@@ -76,6 +76,7 @@ export const PATCH = async (req: NextRequest) => {
     `);
 
   const result = update.run(body);
+
   if (result.changes) {
     return NextResponse.json({ success: true });
   } else {
