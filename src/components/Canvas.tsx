@@ -155,7 +155,7 @@ const Canvas = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="w-full h-92 border-gray-300 border-2 rounded-md">
+      <div className="w-full h-80 border-gray-300 border-2 rounded-md">
         <canvas ref={canvasRef} id="canvas" className="w-full h-full" />
       </div>
       {updateMode && (

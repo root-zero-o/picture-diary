@@ -64,7 +64,7 @@ const DiaryDetail = () => {
 
   if (!isFetching && !data) {
     return (
-      <div className="w-full h-full flex flex-col justify-center items-center bg-gray-200 rounded-md gap-4">
+      <div className="w-full h-full min-h-[500px] flex flex-col justify-center items-center bg-gray-200 rounded-md gap-4">
         {params.date} 에 작성된 일기가 없어요!
         <button
           onClick={handleAddButton}
@@ -77,7 +77,7 @@ const DiaryDetail = () => {
   }
 
   return (
-    <form className="w-full h-full flex flex-col items-center gap-4">
+    <form className="w-full h-full min-h-[500px] flex flex-col items-center gap-4">
       {isFetching && <Loading />}
       <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
         <span className="text-md text-gray-500">
@@ -96,7 +96,7 @@ const DiaryDetail = () => {
         <textarea
           placeholder="내용을 입력하세요"
           spellCheck="false"
-          className="h-full"
+          className="h-full min-h-40"
           disabled={!updateMode}
           {...register("content", { required: true })}
         />
