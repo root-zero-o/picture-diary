@@ -1,8 +1,9 @@
 "use client";
 
+import { useParams, useRouter } from "next/navigation";
+
 import { format } from "date-fns";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
@@ -15,8 +16,10 @@ export type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
 const Header = () => {
   const router = useRouter();
+  const params = useParams<{ date: string }>();
+
   const [showCalendar, setShowCalendar] = useState(false);
-  const [date, setDate] = useState<SelectedDate>(new Date());
+  const [date, setDate] = useState<SelectedDate>(new Date(params.date));
 
   const handleChange = (v: SelectedDate) => {
     setDate(v);

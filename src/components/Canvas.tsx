@@ -155,11 +155,9 @@ const Canvas = ({
     const context = canvas.getContext("2d");
     const imgEl = new Image();
     imgEl.src = pic;
-    imgEl.width = canvas.width;
-    imgEl.height = canvas.height;
-    imgEl.style.objectFit = "contain";
+    imgEl.style.objectFit = "cover";
     imgEl.onload = () => {
-      context?.drawImage(imgEl, 0, 0);
+      context?.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
     };
   }, [pic]);
 
