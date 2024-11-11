@@ -67,7 +67,7 @@ export const PATCH = async (req: NextRequest) => {
   const db = sql("diary.db");
 
   const body = await req.json();
-  const { title, content, picture, date } = body;
+  const { title, content, picture } = body;
 
   const update = db.prepare(`
       UPDATE diary

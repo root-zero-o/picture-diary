@@ -16,7 +16,7 @@ const CustomCalendar = ({ date, onChange }: ICustomCalendar) => {
   const [calendarDate, setCalendarDate] = useState(date);
   const month = format(calendarDate as Date, "yyyy-MM");
 
-  const { data, isFetching } = useDiaryCount(month);
+  const { data } = useDiaryCount(month);
 
   const handleChangeMonth = ({ activeStartDate }: OnArgs) => {
     if (!activeStartDate) return;
@@ -34,7 +34,7 @@ const CustomCalendar = ({ date, onChange }: ICustomCalendar) => {
         value={calendarDate}
         onChange={handleChangeDate}
         onActiveStartDateChange={handleChangeMonth}
-        tileContent={({ date, view }) => {
+        tileContent={({ date }) => {
           if (data?.find((x) => x.date === format(date, "yyyy-MM-dd"))) {
             return (
               <>

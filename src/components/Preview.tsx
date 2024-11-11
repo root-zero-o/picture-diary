@@ -1,6 +1,7 @@
 import { Diary } from "@/api/types";
 import { format } from "date-fns";
 import html2canvas from "html2canvas";
+import Image from "next/image";
 
 const Preview = ({ data, close }: { data: Diary; close: () => void }) => {
   const handleSave = () => {
@@ -8,7 +9,7 @@ const Preview = ({ data, close }: { data: Diary; close: () => void }) => {
     if (!element) return;
 
     html2canvas(element).then((canvas) => {
-      let link = document.createElement("a");
+      const link = document.createElement("a");
       document.body.appendChild(link);
       const temp = canvas.toDataURL("image/jpg");
 
@@ -24,7 +25,7 @@ const Preview = ({ data, close }: { data: Diary; close: () => void }) => {
     <div className="w-full h-full fixed top-0 left-0 bg-gray-800/40 flex flex-col gap-4 items-center justify-center">
       <div
         id="img-el"
-        className="w-[600px] h-[550px] bg-[var(--main-white)] p-8 rounded-md flex flex-col gap-4"
+        className="w-[700px] h-[550px] bg-[var(--main-white)] p-8 rounded-md flex flex-col gap-4"
       >
         <div className="flex flex-col">
           <span className="text-gray-500">
@@ -33,8 +34,11 @@ const Preview = ({ data, close }: { data: Diary; close: () => void }) => {
           <h1 className="text-2xl">{data.title}</h1>
         </div>
         {data.picture ? (
-          <img
-            className="w-full aspect-[7/3] border-2 border-gray-200"
+          <Image
+            width={700}
+            height={300}
+            alt="my-picture"
+            className=" border-2 border-gray-200"
             src={data.picture}
           />
         ) : (

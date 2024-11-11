@@ -62,7 +62,7 @@ const DiaryDetail = () => {
         content: data.content,
       });
     }
-  }, [data]);
+  }, [data, reset]);
 
   if (!isFetching && !data) {
     return (
@@ -107,7 +107,7 @@ const DiaryDetail = () => {
         <div className="flex gap-2">
           {!updateMode ? (
             <button
-              disabled={!isValid || updatePending}
+              disabled={!isValid}
               className="page-btn"
               onClick={handleSubmit(() => setUpdateMode(true))}
               type="button"
@@ -116,7 +116,7 @@ const DiaryDetail = () => {
             </button>
           ) : (
             <button
-              disabled={!isValid}
+              disabled={!isValid || updatePending}
               className="page-btn"
               type="submit"
               onClick={handleSubmit(handleUpdate)}
@@ -133,6 +133,7 @@ const DiaryDetail = () => {
             이미지로 저장하기
           </button>
           <button
+            disabled={delPending}
             onClick={handleDeleteButton}
             className="bg-rose-400 page-btn"
             type="button"

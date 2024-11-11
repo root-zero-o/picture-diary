@@ -10,18 +10,18 @@ export const Get = async <T>(
   return response;
 };
 
-export const Post = async <T>(
+export const Post = async <T, D>(
   url: string,
-  data?: any,
+  data?: D,
   config?: AxiosRequestConfig
 ): Promise<AxiosResponse<T>> => {
   const response = await Axios.post(url, data, config);
   return response;
 };
 
-export const Patch = async <T>(
+export const Patch = async <T, D>(
   url: string,
-  data?: any,
+  data?: D,
   config?: AxiosRequestConfig
 ): Promise<AxiosResponse<T>> => {
   const response = await Axios.patch(url, data, config);

@@ -26,7 +26,7 @@ export const getDiaryCount = async (month: string) => {
 
 /** POST : 일기 생성하기 */
 export const createDiary = async (body: Omit<Diary, "id">) => {
-  const res = await Post<{ id: number }>("/api", body);
+  const res = await Post<{ id: number }, Omit<Diary, "id">>("/api", body);
   return res;
 };
 
@@ -43,7 +43,10 @@ export const deleteDiary = async (date: string) => {
 
 /** PATCH : 일기 수정하기 */
 export const updateDiary = async (body: Omit<Diary, "id">) => {
-  const res = await Patch<any>("/api", body);
+  const res = await Patch<{ success: boolean }, Omit<Diary, "id">>(
+    "/api",
+    body
+  );
 
   return res;
 };

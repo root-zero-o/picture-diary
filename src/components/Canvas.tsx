@@ -51,24 +51,27 @@ const Canvas = ({
     };
   };
 
-  const drawLine = (prev: Pos, next: Pos) => {
-    if (!canvasRef.current) return;
-    const canvas: HTMLCanvasElement = canvasRef.current;
-    const context = canvas.getContext("2d");
+  const drawLine = useCallback(
+    (prev: Pos, next: Pos) => {
+      if (!canvasRef.current) return;
+      const canvas: HTMLCanvasElement = canvasRef.current;
+      const context = canvas.getContext("2d");
 
-    if (context) {
-      context.strokeStyle = option.strokeStyle;
-      context.lineJoin = "round";
-      context.lineWidth = option.lineWidth;
+      if (context) {
+        context.strokeStyle = option.strokeStyle;
+        context.lineJoin = "round";
+        context.lineWidth = option.lineWidth;
 
-      context.beginPath();
-      context.moveTo(prev.x, prev.y);
-      context.lineTo(next.x, next.y);
-      context.closePath();
+        context.beginPath();
+        context.moveTo(prev.x, prev.y);
+        context.lineTo(next.x, next.y);
+        context.closePath();
 
-      context.stroke();
-    }
-  };
+        context.stroke();
+      }
+    },
+    [option.strokeStyle, option.lineWidth]
+  );
 
   const startPaint = useCallback((event: MouseEvent) => {
     const curPos = getPosition(event);
@@ -91,7 +94,7 @@ const Canvas = ({
         }
       }
     },
-    [isPainting, pos]
+    [isPainting, pos, drawLine]
   );
 
   const exitPaint = useCallback(() => {
