@@ -141,7 +141,9 @@ const DiaryDetail = () => {
           </button>
         </div>
       </form>
-      {data && showPreview && <Preview data={data} />}
+      {data && showPreview && (
+        <Preview data={data} close={() => setShowPreview(false)} />
+      )}
     </>
   );
 };
