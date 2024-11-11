@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import Canvas from "@/components/Canvas";
 import Loading from "@/components/Loading";
+import Preview from "@/components/Preview";
 import { format } from "date-fns";
 
 export interface IFormState {
@@ -24,6 +25,7 @@ const DiaryDetail = () => {
   const params = useParams<{ date: string }>();
   const router = useRouter();
   const [updateMode, setUpdateMode] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   const { data, isFetching } = useDiaryByDate(params.date);
   const { mutate: del, isPending: delPending } = useDeleteDiary(params.date);
@@ -77,59 +79,70 @@ const DiaryDetail = () => {
   }
 
   return (
-    <form className="w-full h-full min-h-[500px] flex flex-col items-center gap-4">
-      {isFetching && <Loading />}
-      <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
-        <span className="text-md text-gray-500">
-          {format(new Date(params.date), "yyyy년 M월 d일")}
-        </span>
-        <div className="w-full flex">
-          <input
-            disabled={!updateMode}
-            className="h-10 p-2 border-b-2 text-2xl"
-            placeholder="제목"
+    <>
+      <form className="w-full h-full min-h-[500px] flex flex-col items-center gap-4">
+        {isFetching && <Loading />}
+        <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
+          <span className="text-md text-gray-500">
+            {format(new Date(params.date), "yyyy년 M월 d일")}
+          </span>
+          <div className="w-full flex">
+            <input
+              disabled={!updateMode}
+              className="h-10 p-2 border-b-2 text-2xl"
+              placeholder="제목"
+              spellCheck="false"
+              {...register("title", { required: true })}
+            />
+          </div>
+          <Canvas updateMode={updateMode} picture={data?.picture || null} />
+          <textarea
+            placeholder="내용을 입력하세요"
             spellCheck="false"
-            {...register("title", { required: true })}
+            className="h-full min-h-40"
+            disabled={!updateMode}
+            {...register("content", { required: true })}
           />
         </div>
-        <Canvas updateMode={updateMode} picture={data?.picture || null} />
-        <textarea
-          placeholder="내용을 입력하세요"
-          spellCheck="false"
-          className="h-full min-h-40"
-          disabled={!updateMode}
-          {...register("content", { required: true })}
-        />
-      </div>
-      <div className="flex gap-2">
-        {!updateMode ? (
+        <div className="flex gap-2">
+          {!updateMode ? (
+            <button
+              disabled={!isValid || updatePending}
+              className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
+              onClick={handleSubmit(() => setUpdateMode(true))}
+              type="button"
+            >
+              수정하기
+            </button>
+          ) : (
+            <button
+              disabled={!isValid}
+              className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
+              type="submit"
+              onClick={handleSubmit(handleUpdate)}
+            >
+              변경사항 저장하기
+            </button>
+          )}
+
           <button
-            disabled={!isValid || updatePending}
-            className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
-            onClick={handleSubmit(() => setUpdateMode(true))}
+            onClick={() => setShowPreview(true)}
+            className="bg-gray-800 text-[var(--main-white)] w-fit p-2 rounded-md"
             type="button"
           >
-            수정하기
+            이미지로 저장하기
           </button>
-        ) : (
           <button
-            disabled={!isValid}
-            className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
-            type="submit"
-            onClick={handleSubmit(handleUpdate)}
+            onClick={handleDeleteButton}
+            className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md"
+            type="button"
           >
-            변경사항 저장하기
+            삭제하기
           </button>
-        )}
-        <button
-          onClick={handleDeleteButton}
-          className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md"
-          type="button"
-        >
-          삭제하기
-        </button>
-      </div>
-    </form>
+        </div>
+      </form>
+      {data && showPreview && <Preview data={data} />}
+    </>
   );
 };
 
