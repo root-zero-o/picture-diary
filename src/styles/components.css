@@ -4,4 +4,16 @@
   .canvas-option-btn {
     @apply w-8 h-8 flex justify-center items-center rounded-md bg-gray-800 text-white hover:bg-gray-600 disabled:bg-slate-50;
   }
+
+  .form {
+    @apply w-full h-fit flex flex-col items-center gap-4;
+  }
+
+  .page-container {
+    @apply w-full h-fit flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6;
+  }
+
+  .page-btn {
+    @apply bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md;
+  }
 }

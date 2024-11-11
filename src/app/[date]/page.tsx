@@ -80,9 +80,9 @@ const DiaryDetail = () => {
 
   return (
     <>
-      <form className="w-full h-full min-h-[500px] flex flex-col items-center gap-4">
+      <form className="form">
         {isFetching && <Loading />}
-        <div className="w-full h-full flex flex-col gap-4 border-gray-300 border-[1px] rounded-md shadow-lg p-6">
+        <div className="page-container">
           <span className="text-md text-gray-500">
             {format(new Date(params.date), "yyyy년 M월 d일")}
           </span>
@@ -108,7 +108,7 @@ const DiaryDetail = () => {
           {!updateMode ? (
             <button
               disabled={!isValid || updatePending}
-              className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
+              className="page-btn"
               onClick={handleSubmit(() => setUpdateMode(true))}
               type="button"
             >
@@ -117,7 +117,7 @@ const DiaryDetail = () => {
           ) : (
             <button
               disabled={!isValid}
-              className="bg-gray-800 disabled:bg-gray-400 text-[var(--main-white)] w-fit p-2 rounded-md "
+              className="page-btn"
               type="submit"
               onClick={handleSubmit(handleUpdate)}
             >
@@ -127,14 +127,14 @@ const DiaryDetail = () => {
 
           <button
             onClick={() => setShowPreview(true)}
-            className="bg-gray-800 text-[var(--main-white)] w-fit p-2 rounded-md"
+            className="page-btn"
             type="button"
           >
             이미지로 저장하기
           </button>
           <button
             onClick={handleDeleteButton}
-            className="bg-rose-400 text-[var(--main-white)] w-fit p-2 rounded-md"
+            className="bg-rose-400 page-btn"
             type="button"
           >
             삭제하기
