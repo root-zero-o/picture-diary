@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
+import { AiFillPicture } from "react-icons/ai";
 import { BiSolidEraser } from "react-icons/bi";
 import { HiOutlineTrash } from "react-icons/hi";
 import ColorButton from "./ColorButton";
@@ -29,11 +30,16 @@ const Canvas = ({
 
   const [isPainting, setIsPainting] = useState(false);
   const [pos, setPos] = useState<Pos | null>(null);
+  const [pic, setPic] = useState<string | null>(null);
   const [option, setOption] = useState<Option>({
     lineWidth: 1,
     strokeStyle: "black",
     mode: "draw",
   });
+
+  useEffect(() => {
+    setPic(picture);
+  }, [picture]);
 
   const getPosition = (event: MouseEvent): Pos | undefined => {
     if (!canvasRef.current) return;
@@ -114,6 +120,24 @@ const Canvas = ({
     }
   };
 
+  const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024;
+
+    const target = e.currentTarget;
+    const files = (target.files as FileList)[0];
+
+    if (!files) return;
+
+    // 파일 용량 체크
+    if (files.size > FILE_SIZE_MAX_LIMIT) {
+      target.value = "";
+      alert("업로드 가능한 최대 용량은 5MB입니다. ");
+      return;
+    }
+    const url = URL.createObjectURL(files);
+    setPic(url);
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -124,17 +148,17 @@ const Canvas = ({
   }, []);
 
   useEffect(() => {
-    if (!picture) return;
+    if (!pic) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const context = canvas.getContext("2d");
     const imgEl = new Image();
-    imgEl.src = picture;
+    imgEl.src = pic;
     imgEl.onload = () => {
       context?.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
     };
-  }, [picture]);
+  }, [pic]);
 
   useEffect(() => {
     if (!updateMode) return;
@@ -180,6 +204,16 @@ const Canvas = ({
           >
             <BiSolidEraser />
           </button>
+          <input
+            type="file"
+            id="file"
+            className="hidden"
+            onChange={handleFile}
+            accept="image/png, image/jpeg"
+          />
+          <label htmlFor="file" className={`canvas-option-btn`}>
+            <AiFillPicture />
+          </label>
         </div>
       )}
     </div>
