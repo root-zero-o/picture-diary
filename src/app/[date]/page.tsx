@@ -87,13 +87,19 @@ const DiaryDetail = () => {
             {format(new Date(params.date), "yyyy년 M월 d일")}
           </span>
           <div className="w-full flex">
-            <input
-              disabled={!updateMode}
-              className="h-10 p-2 border-b-2 text-2xl"
-              placeholder="제목"
-              spellCheck="false"
-              {...register("title", { required: true })}
-            />
+            {updateMode ? (
+              <input
+                disabled={!updateMode}
+                className="h-10 p-2 border-b-2 text-2xl"
+                placeholder="제목"
+                spellCheck="false"
+                maxLength={30}
+                type="text"
+                {...register("title", { required: true })}
+              />
+            ) : (
+              <span className="text-2xl">{data && data.title}</span>
+            )}
           </div>
           <Canvas updateMode={updateMode} picture={data?.picture || null} />
           <textarea

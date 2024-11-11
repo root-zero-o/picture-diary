@@ -49,6 +49,7 @@ const Add = () => {
             className="h-10 p-2 border-b-2 text-2xl"
             placeholder="제목"
             spellCheck="false"
+            maxLength={30}
             {...register("title", { required: true })}
           />
         </div>
@@ -57,6 +58,7 @@ const Add = () => {
           placeholder="내용을 입력하세요"
           spellCheck="false"
           className="h-full min-h-40"
+          maxLength={100}
           {...register("content", { required: true })}
         />
       </div>
